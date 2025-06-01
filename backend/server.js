@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const { sequelize } = require('./config/db'); // Sequelize
 const authRoutes = require('./routes/auth.routes');
 const eventRoutes = require('./routes/event.routes');
-const User = require('./models/User.model');
 const memoryResetRoutes = require('./routes/memoryReset.routes');
-const path = require('path');
 const userRoutes = require('./routes/user.routes');
+const path = require('path');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -16,15 +16,24 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());  // Parse JSON bodies
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/test-reset', memoryResetRoutes);
 app.use('/api/users', userRoutes);
 app.use('/uploads', express.static('uploads')); // Sert les fichiers d'avatars
 
+// Servir le frontend en production
+const frontendPath = path.join(__dirname, 'frontend/dist');
+app.use(express.static(frontendPath));
 
 
+// Route de santé pour Render
+app.get('/healthz', (req, res) => res.send('OK'));
+// Fallback React Router (à placer après les routes API)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
 // Connexion MongoDB (Mongoose)
 const connectMongoDB = async () => {
@@ -54,5 +63,3 @@ const connectMongoDB = async () => {
     console.error('❌ Erreur au démarrage du serveur:', error);
   }
 })();
-
-
