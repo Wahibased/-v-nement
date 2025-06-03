@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs'); // Pour hacher les mots de passe si besoin
+const bcrypt = require('bcrypt'); // Pour hacher les mots de passe si besoin
 const Event = require('../models/Event.model');
 const User = require('../models/User.model'); // Assure-toi que ce fichier existe
 
@@ -60,7 +60,7 @@ router.get('/settings', authenticate, async (req, res) => {
 });
 
 // ==========================================
-// 📆 EVENTS – CRUD
+//  EVENTS – CRUD
 // READ all events (GET /)
 router.get('/', authenticate, async (req, res) => {
   try {

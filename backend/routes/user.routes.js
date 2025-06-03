@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ✅ Route unique et protégée pour l’upload d’avatar
+// Route unique et protégée pour l’upload d’avatar
 router.post('/avatar', protect, upload.single('avatar'), async (req, res) => {
   try {
     if (!req.file) {

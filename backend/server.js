@@ -27,11 +27,10 @@ app.use('/uploads', express.static('uploads')); // Sert les fichiers d'avatars
 const frontendPath = path.join(__dirname, 'frontend/dist');
 app.use(express.static(frontendPath));
 
-
 // Route de santé pour Render
 app.get('/healthz', (req, res) => res.send('OK'));
 // Fallback React Router (à placer après les routes API)
-app.get('*', (req, res) => {
+app.get(/^\/(?!api\/|uploads\/|healthz).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
