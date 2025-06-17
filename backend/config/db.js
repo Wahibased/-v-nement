@@ -1,8 +1,9 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const sequelize = process.env.JAWSDB_URL
-  ? new Sequelize(process.env.JAWSDB_URL, {
+const mysql = require('mysql');
+const db = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
+new Sequelize(process.env.CLEARDB_DATABASE_URL, {
       dialect: 'mysql',
       logging: false,
     })
