@@ -1,9 +1,8 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const mysql = require('mysql');
-const db = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
-new Sequelize(process.env.CLEARDB_DATABASE_URL, {
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
       dialect: 'mysql',
       logging: false,
     })
@@ -19,4 +18,3 @@ new Sequelize(process.env.CLEARDB_DATABASE_URL, {
     );
 
 module.exports = { sequelize };
-

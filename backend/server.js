@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const { connectMongoDB } = require('./config/mongo');
 const { sequelize } = require('./config/db'); // Sequelize
 const authRoutes = require('./routes/auth.routes');
 const eventRoutes = require('./routes/event.routes');
@@ -12,53 +12,52 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
-app.use(cors());
-app.use(express.json());  // Parse JSON bodies
+console.log('🔄 Initialisation du backend...');
 
-// API Routes
+// === MIDDLEWARES ===
+app.use(cors());
+app.use(express.json());
+
+// === ROUTES API ===
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/test-reset', memoryResetRoutes);
 app.use('/api/users', userRoutes);
-app.use('/uploads', express.static('uploads')); // Sert les fichiers d'avatars
+app.use('/uploads', express.static('uploads'));
 
-// Servir le frontend en production
+// === ROUTES DE TEST ET DE SANTÉ ===
+app.get('/api/test', (req, res) => {
+  res.json({ message: '✅ Backend is running!' });
+});
+
+app.get('/healthz', (req, res) => res.send('OK'));
+
+// === FRONTEND (STATIC FILES EN PROD) ===
 const frontendPath = path.join(__dirname, 'frontend/dist');
 app.use(express.static(frontendPath));
-
-// Route de santé pour Render
-app.get('/healthz', (req, res) => res.send('OK'));
-// Fallback React Router (à placer après les routes API)
 app.get(/^\/(?!api\/|uploads\/|healthz).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// Connexion MongoDB (Mongoose)
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Connexion à MongoDB réussie.');
-  } catch (error) {
-    console.error('❌ Erreur connexion MongoDB:', error);
-  }
-};
-
-// Démarrer le serveur après connexion aux bases de données
+// === LANCEMENT DU SERVEUR ===
 (async () => {
   try {
+    console.log('⏳ Connexion à MySQL...');
     await sequelize.authenticate();
     console.log('✅ Connexion à MySQL réussie.');
 
     await sequelize.sync({ alter: true });
     console.log('✅ Synchronisation des modèles Sequelize réussie.');
 
-    await connectMongoDB(); // Connexion MongoDB
+    console.log('⏳ Connexion à MongoDB...');
+    await connectMongoDB();
 
     app.listen(PORT, () => {
-      console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+      console.log(`🚀 Serveur lancé et en écoute sur le port ${PORT}`);
     });
   } catch (error) {
-    console.error('❌ Erreur au démarrage du serveur:', error);
+    console.error('❌ Erreur au démarrage du serveur:', error.message);
   }
 })();
+
+
