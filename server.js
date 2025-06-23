@@ -1,7 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
-
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { connectMongoDB } = require('./config/mongo');
@@ -14,6 +11,8 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+// --- ADD THIS LINE ---
+const HOST = '0.0.0.0'; 
 
 console.log('🔄 Initialisation du backend...');
 
@@ -55,12 +54,13 @@ app.get(/^\/(?!api\/|uploads\/|healthz).*/, (req, res) => {
     console.log('⏳ Connexion à MongoDB...');
     await connectMongoDB();
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Serveur lancé et en écoute sur le port ${PORT}`);
+    // --- CHANGE THIS LINE ---
+    app.listen(PORT, HOST, () => { // Added HOST here
+      console.log(`🚀 Serveur lancé et en écoute sur ${HOST}:${PORT}`); // Updated log for clarity
     });
   } catch (error) {
     console.error('❌ Erreur au démarrage du serveur:', error.message);
+    // It's good practice to exit the process if critical services (like DB) fail to connect
+    process.exit(1); 
   }
 })();
-
-
