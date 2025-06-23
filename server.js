@@ -35,11 +35,11 @@ app.get('/api/test', (req, res) => {
 app.get('/healthz', (req, res) => res.send('OK'));
 
 // === FRONTEND (STATIC FILES EN PROD) ===
-const frontendPath = path.join(__dirname, 'frontend/dist');
+/*const frontendPath = path.join(__dirname, 'frontend/dist');
 app.use(express.static(frontendPath));
-app.get(/^\/(?!api\/|uploads\/|healthz).*/, (req, res) => {
+app.get(/^\/(?!api\/|uploads\/|healthz).*//*, (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
-});
+});*/
 
 // === LANCEMENT DU SERVEUR ===
 (async () => {
