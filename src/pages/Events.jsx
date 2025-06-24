@@ -15,7 +15,7 @@ import NoteIcon from '@mui/icons-material/Note';
 import CloseIcon from '@mui/icons-material/Close';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineContent, TimelineConnector } from '@mui/lab';
-import { useNavigate } => from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 // Access the environment variable set in Vercel
