@@ -23,7 +23,7 @@ console.log('🔄 Initialisation du backend...');
 // Configure CORS to explicitly allow requests from your Vercel frontend.
 // Replace 'https://v-nement-jcbq.vercel.app' with your exact Vercel production domain.
 const corsOptions = {
-  origin: 'https://v-nement-jcbq.vercel.app',
+  origin: 'https://charming-crisp-b36b0d.netlify.app',
   optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 app.use(cors(corsOptions)); // Apply the CORS middleware with your specified options
