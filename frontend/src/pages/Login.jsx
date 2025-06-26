@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Ajouté pour la navigation
-import '../App.css'; // Assure-toi que ce fichier existe
 import { Link } from 'react-router-dom';
 import '../App.css';
 
 // Access the environment variable set in Vercel
-const VITE_API_URL = import.meta.env.VITE_API_URL; //
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,12 +16,7 @@ function Login() {
     setErrorMsg('');
 
     try {
-<<<<<<< HEAD
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', {
-=======
-      // Use the environment variable for the backend URL
       const { data } = await axios.post(`${VITE_API_URL}/api/auth/login`, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
         email,
         password
       });
@@ -61,7 +53,6 @@ function Login() {
           required
         />
 
-        {/* Lien mot de passe oublié */}
         <div style={{ textAlign: 'right', marginBottom: '1rem' }}>
           <Link to="/forgot-password" className="login-forgot-link">
             Mot de passe oublié ?
@@ -71,7 +62,7 @@ function Login() {
         <button type="submit" className="login-button">Sign In</button>
 
         <p className="login-footer">
-          Don't have an account? <a href="/register">Register</a>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
     </div>
@@ -79,7 +70,3 @@ function Login() {
 }
 
 export default Login;
-<<<<<<< HEAD
-
-=======
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa

@@ -2,24 +2,17 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
 
-<<<<<<< HEAD
-=======
-// Accédez à la variable d'environnement définie dans Netlify
+// Accès à la variable d'environnement
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 function MyRegistrations() {
   const [registrations, setRegistrations] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-<<<<<<< HEAD
-        const { data } = await axios.get('/api/registrations', {
-=======
         // Utilisez la variable d'environnement pour l'URL du backend
         const { data } = await axios.get(`${VITE_API_URL}/api/registrations`, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         setRegistrations(data);
@@ -52,9 +45,4 @@ function MyRegistrations() {
   );
 }
 
-<<<<<<< HEAD
 export default MyRegistrations;
-
-=======
-export default MyRegistrations;
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa

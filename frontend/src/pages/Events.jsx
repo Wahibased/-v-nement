@@ -7,7 +7,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, IconButton, MenuItem, Select
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EventIcon from '@mui/icons-material/Event';
+import EventIcon from '@mui/icons-material/Event'; // Unused import, can be removed if not used elsewhere
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -18,12 +18,12 @@ import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineContent
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-<<<<<<< HEAD
-=======
-// Access the environment variable set in Vercel
-const VITE_API_URL = import.meta.env.VITE_API_URL; //
 
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
+// Access the environment variable set in Vercel
+// Ensure VITE_API_URL is correctly configured in your .env.production and .env files in the frontend root
+// For local development, you might have VITE_API_URL=http://localhost:5000 in .env
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'; // Fallback for local development
+
 function EventAppIcon({ profileUrl, onChangeProfile }) {
   const fileInputRef = useRef(null);
   const handleIconClick = () => fileInputRef.current?.click();
@@ -63,6 +63,7 @@ function PersonalNote({ open, onClose }) {
   const [paperStyle, setPaperStyle] = useState(localStorage.getItem('notePaperStyle') || 'white');
 
   useEffect(() => {
+    // Save note and style to localStorage when component unmounts or dependencies change
     return () => {
       localStorage.setItem('personalNote', note);
       localStorage.setItem('notePaperStyle', paperStyle);
@@ -151,12 +152,18 @@ export default function Events() {
   const navigate = useNavigate();
   const today = dayjs().format('YYYY-MM-DD');
 
+  // Function to handle profile picture change
+  const handleChangeProfile = useCallback((newProfileUrl) => {
+    setUser(prevUser => ({ ...prevUser, profilePictureUrl: newProfileUrl }));
+  }, []);
+
   useEffect(() => {
     if (!token) return navigate('/login');
 
     try {
+      // Decode token to get user info and check expiration
       const payload = JSON.parse(atob(token.split('.')[1]));
-      if (Date.now() > payload.exp * 1000) {
+      if (Date.now() > payload.exp * 1000) { // Token expired
         localStorage.removeItem('token');
         navigate('/login');
       } else {
@@ -167,7 +174,9 @@ export default function Events() {
           profilePictureUrl: storedProfileUrl || payload.profilePictureUrl || '',
         });
       }
-    } catch {
+    } catch (e) {
+      console.error("Token decoding failed or invalid token:", e);
+      localStorage.removeItem('token'); // Clear invalid token
       navigate('/login');
     }
   }, [token, navigate]);
@@ -175,17 +184,13 @@ export default function Events() {
   const fetchEvents = useCallback(async () => {
     setLoading(true);
     try {
-<<<<<<< HEAD
-      const { data } = await axios.get('http://localhost:5000/api/events', {
-=======
-      // Use the environment variable for the backend URL
       const { data } = await axios.get(`${VITE_API_URL}/api/events`, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
         headers: { Authorization: `Bearer ${token}` },
         params: { sort: sortOrder },
       });
       setEvents(data.events);
     } catch (err) {
+      console.error("Error fetching events:", err);
       setErrorMsg('Erreur lors de la récupération des événements');
       setSnackbarOpen(true);
     } finally {
@@ -197,32 +202,17 @@ export default function Events() {
     fetchEvents();
   }, [fetchEvents]);
 
-  const handleChangeProfile = (url) => {
-    localStorage.setItem('profilePictureUrl', url);
-    setUser((prev) => ({ ...prev, profilePictureUrl: url }));
-  };
-
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async () => {
     try {
       if (editMode) {
-<<<<<<< HEAD
-        await axios.put(`http://localhost:5000/api/events/${editMode}`, form, {
-=======
-        // Use the environment variable for the backend URL
         await axios.put(`${VITE_API_URL}/api/events/${editMode}`, form, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
           headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMsg('Événement modifié.');
       } else {
-<<<<<<< HEAD
-        await axios.post(`http://localhost:5000/api/events`, form, {
-=======
-        // Use the environment variable for the backend URL
         await axios.post(`${VITE_API_URL}/api/events`, form, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
           headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMsg('Événement ajouté.');
@@ -231,12 +221,14 @@ export default function Events() {
       setDialogOpen(false);
       setForm({ title: '', date: '', location: '', description: '' });
       setEditMode(null);
-    } catch {
-      setErrorMsg("Erreur lors de l'enregistrement.");
+    } catch (err) {
+      console.error("Error saving event:", err.response?.data || err);
+      setErrorMsg("Erreur lors de l'enregistrement : " + (err.response?.data?.message || err.message || ''));
     } finally {
       setSnackbarOpen(true);
     }
   };
+
 
   const filteredEvents = events.filter((e) => {
     const matchKeyword = e.title.toLowerCase().includes(filters.keyword.toLowerCase());
@@ -245,7 +237,22 @@ export default function Events() {
     return matchKeyword && matchLocation && matchDate;
   });
 
-  const todayEvents = filteredEvents.filter((e) => dayjs(e.date).isSame(today, 'day'));
+  // Sort events by date
+  const sortedAndFilteredEvents = [...filteredEvents].sort((a, b) => {
+    const dateA = dayjs(a.date);
+    const dateB = dayjs(b.date);
+    if (sortOrder === 'asc') {
+      return dateA.diff(dateB);
+    } else {
+      return dateB.diff(dateA);
+    }
+  });
+
+
+  const todayEvents = sortedAndFilteredEvents.filter((e) => dayjs(e.date).isSame(today, 'day'));
+  const upcomingEvents = sortedAndFilteredEvents.filter((e) => dayjs(e.date).isAfter(today, 'day'));
+  const pastEvents = sortedAndFilteredEvents.filter((e) => dayjs(e.date).isBefore(today, 'day'));
+
 
   return (
     <Stack direction={{ xs: 'column', md: 'row' }} minHeight="100vh">
@@ -258,8 +265,9 @@ export default function Events() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          height: '100vh',
+          height: { xs: 'auto', md: '100vh' }, // Adjust height for responsiveness
           position: 'relative',
+          boxShadow: 3, // Add some shadow
         }}
       >
         <IconButton
@@ -293,7 +301,7 @@ export default function Events() {
 
         <Box mt={2} sx={{ textAlign: 'center' }}>
           <IconButton
-            onClick={() => alert('Paramètres')}
+            onClick={() => alert('Paramètres')} // Placeholder for actual settings
             sx={{ color: 'text.secondary' }}
             aria-label="paramètres"
             size="large"
@@ -309,22 +317,22 @@ export default function Events() {
       <Box flex={1} p={3}>
         <Container maxWidth="lg">
           <Box display="flex" gap={2} flexWrap="wrap" mb={2}>
-            <TextField fullWidth label="Mot-clé" value={filters.keyword} onChange={(e) => setFilters({ ...filters, keyword: e.target.value })} />
-            <TextField fullWidth label="Lieu" value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })} />
-            <TextField fullWidth type="date" label="Date" InputLabelProps={{ shrink: true }} value={filters.date} onChange={(e) => setFilters({ ...filters, date: e.target.value })} />
+            <TextField label="Mot-clé" value={filters.keyword} onChange={(e) => setFilters({ ...filters, keyword: e.target.value })} sx={{ flexGrow: 1 }} />
+            <TextField label="Lieu" value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })} sx={{ flexGrow: 1 }} />
+            <TextField type="date" label="Date" InputLabelProps={{ shrink: true }} value={filters.date} onChange={(e) => setFilters({ ...filters, date: e.target.value })} sx={{ flexGrow: 1 }} />
             <ToggleButtonGroup value={sortOrder} exclusive onChange={(e, value) => value && setSortOrder(value)}>
-              <ToggleButton value="asc">⬆️</ToggleButton>
-              <ToggleButton value="desc">⬇️</ToggleButton>
+              <ToggleButton value="asc">Ascendant</ToggleButton>
+              <ToggleButton value="desc">Descendant</ToggleButton>
             </ToggleButtonGroup>
-            <Button onClick={() => setFilters({ keyword: '', location: '', date: '' })}>Réinitialiser</Button>
+            <Button onClick={() => setFilters({ keyword: '', location: '', date: '' })} variant="outlined">Réinitialiser</Button>
             <Button startIcon={<AddIcon />} variant="contained" onClick={() => setDialogOpen(true)}>Ajouter</Button>
           </Box>
 
-          <Typography variant="h6">Événements du jour</Typography>
+          <Typography variant="h6" mt={4}>Événements du jour ({todayEvents.length})</Typography>
           {todayEvents.length === 0 ? (
-            <Typography>Aucun événement prévu aujourd'hui.</Typography>
+            <Typography sx={{ mb: 2 }}>Aucun événement prévu aujourd'hui.</Typography>
           ) : (
-            <Timeline>
+            <Timeline sx={{ my: 2, '&::before': { display: 'none' } }}> {/* Removed pseudo-element */}
               {todayEvents.map((event) => (
                 <TimelineItem key={event._id}>
                   <TimelineSeparator>
@@ -332,7 +340,7 @@ export default function Events() {
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Card variant="outlined">
+                    <Card variant="outlined" sx={{ mb: 2 }}>
                       <CardContent>
                         <Typography variant="h6">{event.title}</Typography>
                         <Typography color="text.secondary">{dayjs(event.date).format('DD/MM/YYYY')}</Typography>
@@ -352,15 +360,19 @@ export default function Events() {
                         }}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => {
-<<<<<<< HEAD
-                          axios.delete(`http://localhost:5000/api/events/${event._id}`, {
-=======
-                          // Use the environment variable for the backend URL
-                          axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
-                            headers: { Authorization: `Bearer ${token}` },
-                          }).then(() => fetchEvents());
+                        <IconButton onClick={async () => {
+                          try {
+                            await axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            setSuccessMsg('Événement supprimé.');
+                            fetchEvents();
+                          } catch (err) {
+                            console.error("Error deleting event:", err.response?.data || err);
+                            setErrorMsg("Erreur lors de la suppression.");
+                          } finally {
+                            setSnackbarOpen(true);
+                          }
                         }}>
                           <DeleteIcon />
                         </IconButton>
@@ -372,12 +384,12 @@ export default function Events() {
             </Timeline>
           )}
 
-          <Typography variant="h6" mt={4}>Tous les événements</Typography>
-          {loading ? (
-            <CircularProgress />
+          <Typography variant="h6" mt={4}>Événements à venir ({upcomingEvents.length})</Typography>
+          {upcomingEvents.length === 0 ? (
+            <Typography sx={{ mb: 2 }}>Aucun événement à venir.</Typography>
           ) : (
             <Grid container spacing={2} mt={1}>
-              {filteredEvents.map((event) => (
+              {upcomingEvents.map((event) => (
                 <Grid item xs={12} md={6} key={event._id}>
                   <Card variant="outlined">
                     <CardContent>
@@ -399,15 +411,19 @@ export default function Events() {
                       }}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={() => {
-<<<<<<< HEAD
-                        axios.delete(`http://localhost:5000/api/events/${event._id}`, {
-=======
-                        // Use the environment variable for the backend URL
-                        axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
->>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
-                          headers: { Authorization: `Bearer ${token}` },
-                        }).then(() => fetchEvents());
+                      <IconButton onClick={async () => {
+                        try {
+                          await axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                          });
+                          setSuccessMsg('Événement supprimé.');
+                          fetchEvents();
+                        } catch (err) {
+                          console.error("Error deleting event:", err.response?.data || err);
+                          setErrorMsg("Erreur lors de la suppression.");
+                        } finally {
+                          setSnackbarOpen(true);
+                        }
                       }}>
                         <DeleteIcon />
                       </IconButton>
@@ -416,6 +432,62 @@ export default function Events() {
                 </Grid>
               ))}
             </Grid>
+          )}
+
+          <Typography variant="h6" mt={4}>Événements passés ({pastEvents.length})</Typography>
+          {pastEvents.length === 0 ? (
+            <Typography sx={{ mb: 2 }}>Aucun événement passé.</Typography>
+          ) : (
+            <Grid container spacing={2} mt={1}>
+              {pastEvents.map((event) => (
+                <Grid item xs={12} md={6} key={event._id}>
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Typography variant="h6">{event.title}</Typography>
+                      <Typography color="text.secondary">{dayjs(event.date).format('DD/MM/YYYY')}</Typography>
+                      <Typography>{event.description}</Typography>
+                      <Typography variant="caption" color="text.secondary">{event.location}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <IconButton onClick={() => {
+                        setEditMode(event._id);
+                        setForm({
+                          title: event.title,
+                          date: dayjs(event.date).format('YYYY-MM-DD'),
+                          location: event.location,
+                          description: event.description || '',
+                        });
+                        setDialogOpen(true);
+                      }}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={async () => {
+                        try {
+                          await axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                          });
+                          setSuccessMsg('Événement supprimé.');
+                          fetchEvents();
+                        } catch (err) {
+                          console.error("Error deleting event:", err.response?.data || err);
+                          setErrorMsg("Erreur lors de la suppression.");
+                        } finally {
+                          setSnackbarOpen(true);
+                        }
+                      }}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {loading && (
+            <Box display="flex" justifyContent="center" mt={4}>
+              <CircularProgress />
+            </Box>
           )}
 
           <Dialog open={dialogOpen} onClose={() => { setDialogOpen(false); setEditMode(null); setForm({ title: '', date: '', location: '', description: '' }); }}>

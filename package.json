@@ -1,46 +1,28 @@
 {
   "name": "event-app",
   "version": "1.0.0",
-  "description": "Fullstack event management app",
-  "main": "index.js",
-  "type": "commonjs",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "build": "cd frontend && npm install && npm run build",
     "heroku-postbuild": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "engines": {
     "node": "20.x",
-    "npm": "9.x"
+    "npm": "9.x" 
   },
   "dependencies": {
-    "@mui/lab": "^7.0.0-beta.12",
-    "@vitejs/plugin-react": "^4.5.1",
-    "asynckit": "^0.4.0",
-    "autoprefixer": "^10.4.21",
-    "axios": "^1.9.0",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "jwt-decode": "^4.0.0",
-    "mongoose": "^8.14.1",
-    "multer": "^2.0.0",
-    "mysql2": "^3.14.1",
-    "nodemailer": "^7.0.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-hook-form": "^7.56.1",
-    "react-icons": "^5.5.0",
-    "react-router": "^7.5.3",
+    "@mui/lab": "^7.0.0-beta.12", 
+    "@vitejs/plugin-react": "^4.5.1", 
+    "autoprefixer": "^10.4.21", 
+    "axios": "^1.9.0", 
+    "react": "^19.1.0", 
+    "react-dom": "^19.1.0", 
+    "react-router": "^7.5.3", 
     "react-router-dom": "^7.5.3",
-    "sequelize": "^6.37.7",
-    "tailwindcss": "^4.1.4",
-    "vite": "^6.3.5"
+    "tailwindcss": "^4.1.4", 
+    "vite": "^6.3.5" 
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
