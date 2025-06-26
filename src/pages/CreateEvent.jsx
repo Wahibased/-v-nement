@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import '../App.css'; // Tu peux aussi l’intégrer dans App.css si tu préfères
+=======
+import '../App.css';
+
+// Access the environment variable set in Vercel
+const VITE_API_URL = import.meta.env.VITE_API_URL; //
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 
 function CreateEvent() {
   const [form, setForm] = useState({
@@ -19,7 +26,12 @@ function CreateEvent() {
     e.preventDefault();
     setMessage('');
     try {
+<<<<<<< HEAD
       await axios.post('http://localhost:5000/api/events', form, {
+=======
+      // Use the environment variable for the backend URL
+      await axios.post(`${VITE_API_URL}/api/events`, form, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -84,4 +96,7 @@ function CreateEvent() {
 }
 
 export default CreateEvent;
+<<<<<<< HEAD
 
+=======
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa

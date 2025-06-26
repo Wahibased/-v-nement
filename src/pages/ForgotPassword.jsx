@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+<<<<<<< HEAD
+=======
+// Access the environment variable set in Vercel
+const VITE_API_URL = import.meta.env.VITE_API_URL; //
+
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -12,7 +18,12 @@ function ForgotPassword() {
     setMessage('');
 
     try {
+<<<<<<< HEAD
       const { data } = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+=======
+      // Use the environment variable for the backend URL
+      const { data } = await axios.post(`${VITE_API_URL}/api/auth/forgot-password`, { email });
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
       setMessage(data.message);
     } catch (err) {
       setError(err.response?.data?.error || 'Erreur lors de l’envoi.');
@@ -42,4 +53,7 @@ function ForgotPassword() {
 }
 
 export default ForgotPassword;
+<<<<<<< HEAD
 
+=======
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa

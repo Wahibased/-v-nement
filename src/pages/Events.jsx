@@ -18,6 +18,12 @@ import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineContent
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+<<<<<<< HEAD
+=======
+// Access the environment variable set in Vercel
+const VITE_API_URL = import.meta.env.VITE_API_URL; //
+
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 function EventAppIcon({ profileUrl, onChangeProfile }) {
   const fileInputRef = useRef(null);
   const handleIconClick = () => fileInputRef.current?.click();
@@ -169,7 +175,12 @@ export default function Events() {
   const fetchEvents = useCallback(async () => {
     setLoading(true);
     try {
+<<<<<<< HEAD
       const { data } = await axios.get('http://localhost:5000/api/events', {
+=======
+      // Use the environment variable for the backend URL
+      const { data } = await axios.get(`${VITE_API_URL}/api/events`, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
         headers: { Authorization: `Bearer ${token}` },
         params: { sort: sortOrder },
       });
@@ -196,12 +207,22 @@ export default function Events() {
   const handleSubmit = async () => {
     try {
       if (editMode) {
+<<<<<<< HEAD
         await axios.put(`http://localhost:5000/api/events/${editMode}`, form, {
+=======
+        // Use the environment variable for the backend URL
+        await axios.put(`${VITE_API_URL}/api/events/${editMode}`, form, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
           headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMsg('Événement modifié.');
       } else {
+<<<<<<< HEAD
         await axios.post(`http://localhost:5000/api/events`, form, {
+=======
+        // Use the environment variable for the backend URL
+        await axios.post(`${VITE_API_URL}/api/events`, form, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
           headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMsg('Événement ajouté.');
@@ -332,7 +353,12 @@ export default function Events() {
                           <EditIcon />
                         </IconButton>
                         <IconButton onClick={() => {
+<<<<<<< HEAD
                           axios.delete(`http://localhost:5000/api/events/${event._id}`, {
+=======
+                          // Use the environment variable for the backend URL
+                          axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
                             headers: { Authorization: `Bearer ${token}` },
                           }).then(() => fetchEvents());
                         }}>
@@ -374,7 +400,12 @@ export default function Events() {
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => {
+<<<<<<< HEAD
                         axios.delete(`http://localhost:5000/api/events/${event._id}`, {
+=======
+                        // Use the environment variable for the backend URL
+                        axios.delete(`${VITE_API_URL}/api/events/${event._id}`, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
                           headers: { Authorization: `Bearer ${token}` },
                         }).then(() => fetchEvents());
                       }}>
