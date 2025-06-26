@@ -1,0 +1,506 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+}
+/* Base layout */
+.app {
+  background-image: url('./assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: rgb(12, 10, 10);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Navbar */
+.navbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 10;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: rgb(12, 11, 11);
+  cursor: pointer;
+}
+
+/* Logo centered */
+.navbar-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.logo .color1 {
+  color: #00d4ff;
+}
+.logo .color2 {
+  color: #ff5f6d;
+}
+.logo .color3 {
+  color: #f9d423;
+}
+
+/* Navbar menu (visible on toggle) */
+.navbar-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: rgba(97, 89, 89, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  animation: fadeSlideDown 0.3s ease-out forwards;
+}
+
+.navbar-menu a {
+  color: rgb(10, 10, 10);
+  text-decoration: none;
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+
+.navbar-menu a:hover {
+  color: #00d4ff;
+}
+
+/* Hero section */
+.hero {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  animation: slideInFromLeft 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: fadeSlideIn 0.6s ease-out forwards;
+  opacity: 0;
+  color: black;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  animation: fadeSlideIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Animations */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.footer {
+  background-color: gray;
+  color: white;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  margin-top: auto;
+  backdrop-filter: blur(4px);
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #00d4ff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #f9d423;
+}
+
+
+/* Login.css*/
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.login-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.login-input:focus {
+  border-color: #00d4ff;
+  outline: none;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #00d4ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-button:hover {
+  background-color: #009ec3;
+}
+
+.login-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-footer a {
+  color: #00d4ff;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+.login-error {
+  background: #ffe5e5;
+  color: #d8000c;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.login-forgot-link {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Register.css*/
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+
+.register-form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.register-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.register-input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.register-input:focus {
+  border-color: #ff5f6d;
+  outline: none;
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #ff5f6d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.register-button:hover {
+  background-color: #e04e59;
+}
+
+.register-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.register-footer a {
+  color: #ff5f6d;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+.register-error {
+  background: #ffe5e5;
+  color: #d8000c;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+/*CreateEvent.css*/
+.event-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+
+.event-form {
+  background:transparent ;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.event-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.event-form input,
+.event-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.event-form textarea {
+  resize: vertical;
+}
+
+.event-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #28a745;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.event-form button:hover {
+  background-color: #218838;
+}
+
+
+  .event-error {
+    color: #d8000c;
+    background: #ffe5e5;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+.event-success {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.event-error {
+  background-color: #ffe5e5;
+  color: #d8000c;
+}
+
+.event-success {
+  background-color: #e6ffed;
+  color: #2c662d;
+}
+/*MyRegistrations.css*/
+.registration-container {
+  padding: 2rem;
+  min-height: 70vh;
+  color: #e0e0e0;
+  font-family: 'Orbitron', sans-serif;
+  background: rgba(0, 0, 0, 0.6);
+  animation: fadeSlideIn 0.5s ease-out forwards;
+}
+
+.registration-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #00ffe0;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px #00ffe0;
+}
+
+.registration-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 1.2rem;
+}
+
+.registration-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.registration-card {
+  background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+  border: 1px solid #00ffe0;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 255, 224, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.registration-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 20px rgba(0, 255, 224, 0.6);
+}
+
+.registration-card h3 {
+  color: #00ffe0;
+  margin-bottom: 0.5rem;
+}
+
+.registration-card p {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.registration-card .location {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: #ff4b91;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional font import for Orbitron */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
