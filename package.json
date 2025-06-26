@@ -17,7 +17,6 @@
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
-
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "framer-motion": "^12.15.0",
@@ -42,8 +41,7 @@
     "vite": "^6.3.5"
   },
   "engines": {
-    "node": "22.x",
-    "npm": "11.x",
+    "node": "20.x",
     "npm": ">=10.x"
   }
 }
