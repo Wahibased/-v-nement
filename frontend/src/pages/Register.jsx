@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import '../App.css'; // Facultatif selon ton organisation
+=======
+import '../App.css';
+
+// Access the environment variable set in Vercel
+const VITE_API_URL = import.meta.env.VITE_API_URL; //
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -15,7 +22,12 @@ function Register() {
     console.log('Sending:', { email, name, password }); // Debug
 
     try {
+<<<<<<< HEAD
       const { data } = await axios.post('http://localhost:5000/api/auth/register', {
+=======
+      // Use the environment variable for the backend URL
+      const { data } = await axios.post(`${VITE_API_URL}/api/auth/register`, {
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
         email,
         name,
         password,
@@ -24,7 +36,11 @@ function Register() {
       alert(data.message); // Message de succès
       window.location.href = '/login'; // Redirection
     } catch (error) {
+<<<<<<< HEAD
       console.error('Erreur inscription :', error); // Correctement placé ici
+=======
+      console.error('Erreur inscription :', error);
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
       setErrorMsg(error.response?.data?.error || error.message || 'Registration failed.');
     }
   };

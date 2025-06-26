@@ -501,6 +501,3 @@ body, html {
     transform: translateY(0);
   }
 }
-
-/* Optional font import for Orbitron */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');

@@ -17,6 +17,9 @@
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
+
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
     "framer-motion": "^12.15.0",
     "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
@@ -40,6 +43,7 @@
   },
   "engines": {
     "node": "22.x",
-    "npm": "11.x"
+    "npm": "11.x",
+    "npm": ">=10.x"
   }
 }

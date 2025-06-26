@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+<<<<<<< HEAD
+=======
+// Access the environment variable set in Vercel
+const VITE_API_URL = import.meta.env.VITE_API_URL; //
+
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
 function ResetPassword() {
   const { token } = useParams();
   const [password, setPassword] = useState('');
@@ -11,7 +17,12 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       const { data } = await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+=======
+      // Use the environment variable for the backend URL
+      const { data } = await axios.post(`${VITE_API_URL}/api/auth/reset-password/${token}`, { password });
+>>>>>>> aacf94f5592f76641140c8188db2ae54ca11bcfa
       setSuccess(data.message);
     } catch (err) {
       setError(err.response?.data?.error || 'Erreur de réinitialisation');
