@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../App.css';
 
-// Access the environment variable set in Vercel
+// Access the environment variable set by Netlify
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +22,12 @@ function Login() {
         password
       });
       localStorage.setItem('token', data.token);
-      alert('Login successful!');
-      window.location.href = '/events';
+      
+      // Navigate directly to the events page without an alert
+      navigate('/events'); 
+
     } catch (error) {
+      // Keep error handling for failed logins
       setErrorMsg(error.response?.data?.error || 'Login failed. Please try again.');
     }
   };
