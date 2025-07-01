@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Events from './pages/Events';    
+//import Events from './pages/Events';    
 import CreateEvent from './pages/CreateEvent';
 import MyRegistrations from './pages/MyRegistrations';
 import ForgotPassword from './pages/ForgotPassword';
@@ -32,7 +32,7 @@ function App() {
           {menuOpen && (
             <div className="navbar-menu">
               <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-              <Link to="/events" onClick={() => setMenuOpen(false)}>Events</Link> {/* /events */}
+              {/*<Link to="/events" onClick={() => setMenuOpen(false)}>Events</Link> {/* /events */}
               <Link to="/create" onClick={() => setMenuOpen(false)}>Create Event</Link>
               <Link to="/registrations" onClick={() => setMenuOpen(false)}>My Registrations</Link>
               <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
