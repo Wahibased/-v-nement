@@ -1,13 +1,20 @@
 [build]
   base = "."
   publish = "dist"
-  command = "rm -rf node_modules package-lock.json && npm install && npm run build"
+  command = "npm ci && npm run build"
 
 [build.environment]
   NODE_VERSION = "20.19.3"
+
+[[plugins]]
+  package = "@netlify/plugin-cache-core"
+
+  [plugins.inputs]
+    paths = []
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
 
