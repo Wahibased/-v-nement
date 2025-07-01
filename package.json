@@ -15,7 +15,6 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/lab": "^7.0.0-beta.12",
     "@mui/material": "^7.1.0",
-    "@tailwindcss/postcss": "^4.1.11",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.2.1",
